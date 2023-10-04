@@ -3,7 +3,7 @@ layout: default
 title : Woche 4
 ---
 
-{% include head.html %}
+
 
 
 # Einige Merkmale guten Designs
