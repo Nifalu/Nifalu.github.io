@@ -1,0 +1,408 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Wichtige Qualitätsmerkmale im Detail</title>
+
+    <link rel="stylesheet" href="../../slides/css/reveal.css">
+    <link rel="stylesheet" href="../../slides/css/theme/unibas.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../../slides/lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? '../../slides/css/print/pdf.css' : '../../slides/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="center">
+                <div class="titleblock">
+
+                    <p>
+                        <img class="plain" src="../../slides/images//uni-basel-logo.png" style="width:15%;float:left;display:block" />
+                    </p>
+
+
+                    <h1 style="clear:both;margin-top:20%">
+                        Wichtige Qualitätsmerkmale im Detail
+
+                    </h1>
+                    <h3>
+                        Marcel L&uuml;thi <br> Departement Mathematik und Informatik
+                    </h3>
+
+                </div>
+            </section>
+            <section>
+                <h1>Korrektheit</h1>
+                <blockquote> Software ist korrekt, wenn sie die spezifizierten funktionalen Anforderungen erf&uuml;llt
+                </blockquote>
+
+                <ul>
+                    <li>Erfordert spezifizierte Anforderungen </li>                                     
+                    <li>Korrektheit ist absolut</li>
+                    <ul><li>Programm ist nicht "ein bisschen falsch"</li></ul>
+                    <li>Formale Spezifikationen erlauben Korrektheitsbeweise</li>
+                </ul>
+            </section>
+
+            <section>
+                <h1> Zuverl&auml;ssigkeit </h1>
+                <blockquote> Wahrscheinlichkeit, dass in einem bestimmten Zeitinterval kein Fehler auftritt </blockquote>
+
+                <ul>
+                    <li> Intuitiv: Der Benutzer kann sich auf die Software verlassen </li>
+                </ul>
+
+                <img class="plain" src="../../slides/images//reliability.png" style="width:50%" />
+            </section>
+
+           
+            <section>
+                <h1> Quiz</h1>
+                <ul>
+                    <li>Ist dieses Programm korrekt? </li>
+                    <li>Ist es zuverl&auml;ssig? </li>
+                </ul>
+
+                <pre><code data-trim data-noescape>
+                double plus(double a, double b) { 
+                    double sum = a + b;
+                    Random r = new Random();
+                    if (Math.abs(r.nextGaussian()) < 1000) {
+                        return sum;
+                    } else {
+                        return sum + 1;
+                    }
+                }
+            	</code></pre>
+            </section>
+
+            <section>
+                <h1> Robustheit </h1>
+                <blockquote> Software verh&auml;lt sich auch unter unvorhergesehenen Umst&auml;nden sinnvoll </blockquote>
+
+                <div style="align:center; text-align: left; width:80%; margin:auto">
+                        <ul>
+                                <li>Schwierig formal zu spezifizieren</li>
+                            </ul>
+        
+                    <p> Beispiele: </p>
+                <ul>
+                    <li> Hardwareausfall </li>
+                    <li> Falscher Input </li>
+                </ul>                    
+                <p> </p>
+
+    
+            </div>
+
+        </section>
+
+            <section>
+                <h1> Korrektheit und Robustheit</h1>
+
+                <ul>
+                        <li>Anforderungen spezifiziert &rarr; Korrektheit</li>
+                        <li>Anforderung nicht spezifiziert &rarr; Robustheit</li>
+                    </ul>
+
+            </section>
+
+
+            <section>
+                <h1> Effizienz (Performance) </h1>
+                <blockquote> Effizienter Gebrauch von System-ressourcen </blockquote>
+                <ul>
+                    
+                    <li>Typische Resourcen: Speicher, CPU, Netzwerk</li>
+                    <li> Kann verifiziert werden </li>
+                    <ul>
+                        <li> Theoretisch: Komplexit&auml;tstheorie </li>
+                        <li> Praktisch: Simulation </li>
+                    </ul>
+                </ul>
+            </section>
+
+                        <!--
+            <section>
+                <h3> Verifizierbarkeit </h3>
+                <blockquote> Wie einfach ist es Eigenschaften zu verifizieren</blockquote>
+                <ul>
+                    <li> Wichtig z.B. f&uuml;r Securityaudits oder Ressourcen-kritische Systeme</li>
+                    <li> Verifikation kann durch Tests oder formale Methoden erfolgen.</li>
+                    <li> Vorwiegend internes Qualit&auml;tsmerkmal</li>                    
+                </ul>
+
+            </section>
+
+
+            <section>
+                <h3>Interoperabilit&auml;t</h3>
+                <blockquote>Wie gut kann ein Programm mit anderen Zusammenarbeiten</blockquote>
+                <ul>
+                    <li>M&ouml;glichkeiten um Interoperabilit&auml;t zu gew&auml;hrleisten </li>
+                    <ul>
+                        <li>Kompatible Fileformate</li>
+                        <li> OLE Schnittstellen (Word / Excel) </li>
+                        <li> Standard Protokolle </li>
+                    </ul>
+                </ul>
+            </section>
+        -->
+
+
+
+            <section>
+                <h1> Wartbarkeit (1) </h1>
+
+                <p> Software ist nicht das ... </p>
+
+                <img src="../../slides/images//tractor.jpg" style="width:60%" class="plain"/>
+            </section>
+
+            <section>
+                <h1> Wartbarkeit (1) </h1>
+
+                <p> sondern das! </p>
+
+                <img src="../../slides/images//cow.jpg" style="width:60%" class="plain"/>
+            </section>
+
+
+            <section>
+                <h1> Wartbarkeit (2)</h1>
+                <blockquote> Wie einfach ist es die Software weiterzuentwickeln? </blockquote>
+
+            
+                <div style="align:center; text-align: left; width:100%; margin:auto">
+                <p>Faustregel (80/20 Regel): </p>
+                    <ul>
+                        <li>Wartungskosten: 80% der Gesamtkosten </li>
+                        <li>Entwicklungskosten: 20% der Gesamtkosten </li>
+                    </ul>
+
+            </div>
+
+            </section>
+
+            <section>
+                <h1> Wartbarkeit (3) </h1>
+                <div style="align:center; text-align: left; width:80%; margin:auto">
+                <p>Hauptwartungsarbeiten:</p>
+                <ul>
+                        <li>Fehlerbehebung </li>
+                        <li>Anpassung an neue Anforderungen (Hardware/Betriebssystem,...) </li>
+                        <li>Verbesserungen (Wartbarkeit, Performance, ...) </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h1> Wiederverwendbarkeit</h1>
+                <blockquote> Wie einfach ist es die Software in anderem Kontext wiederzuverwenden?</blockquote>
+
+                <ul>
+                    <li>Ermöglicht <mark class="highlight"> komponentenbasierte</mark> Softwareentwicklung </li>
+                    <li>Drastische Kostenreduktion
+                        <ul> <li>Kosten für Verifikation, Wartung, etc.  pro Komponente und nicht pro Produkt </li></ul>
+                </ul>
+
+            </section>
+
+
+            <!--
+            <section>
+                <h1>Wiederverwendbarkeit</h1>
+                
+                <div style="align:center; text-align: left; width:80%; margin:auto">
+                <p>Beispiel Unix:</p>
+                
+                <ul>
+                    <li> <code>less</code> zeigt Text seitenweise an</li>
+                </ul>
+
+                <div class="framebox" >
+                <p>Anzeige einer Datei:</p>
+                <pre><code data-trim data-noescape>
+                    $ cat /etc/passwd |less
+                            </code></pre>
+
+                Anzeige von Resultaten einer Suche.
+                <pre><code data-trim data-noescape>
+                    $ find . -iname "*.java" |less            
+	                </code></pre>
+                </div>
+                
+                <ul>
+                    <li>Eine Lösung für viele Anwendungen.</li>
+                </ul>
+                </div>
+            </section>
+-->
+
+            <section>
+                <h1> Portabilit&auml;t </h1>
+                <blockquote>Grad der Plattformunabhängigkeit einer Software</blockquote>
+                <ul>
+                    <li>M&ouml;gliche Plattformen</li>
+                    <ul>
+                        <li>Verschiedene Browser </li>
+                        <li> Verschiedene Betriebssysteme </li>
+                        <li> Verschiedene Hardware </li>
+                    </ul>
+                </ul>
+            </section>
+
+
+            <section>
+                <h1> Verst&auml;ndlichkeit</h1>
+                <blockquote>Wie einfach ist es den Programmcode zu verstehen?</blockquote>
+
+                <figure>
+                <code style="font-size:smaller" data-trim class="plain">
+                    <pre>
+                    #include <stdio.h>
+                            int l;int main(int o,char **O,
+                            int I){char c,*D=O[1];if(o>0){
+                            for(l=0;D[l              ];D[l
+                            ++]-=10){D   [l++]-=120;D[l]-=
+                            110;while   (!main(0,O,l))D[l]
+                            +=   20;   putchar((D[l]+1032)
+                            /20   )   ;}putchar(10);}else{
+                            c=o+     (D[I]+82)%10-(I>l/2)*
+                            (D[I-l+I]+72)/10-9;D[I]+=I<0?0
+                            :!(o=main(c/10,O,I-1))*((c+999
+                            )%10-(D[I]+92)%10);}return o;}
+                    </pre>
+                </code>
+                <figcaption style="font-size:x-small"> Winner 2001, Best Short Program, International Obfuscated C code Contest</figcaption>
+            </figure>
+            </section>
+
+            <section>
+                <h1> Zusammenfassung </h1>
+
+                <ul>
+                    <li>Korrektheit von Software ist immer durch Anforderungen bestimmt. </li>                    
+                    <ul><li>Ohne Anforderungen gibt es keine Korrektheit, nur Robustheit</li></ul>
+
+                    <li>
+                        Gute Software muss wartbar sein.
+                    </li>
+                    <ul>
+                        <li>Ein Grossteil der Kosten wird durch Wartung verursacht</li>
+                        <li>Das Qualitätskriterium Wartbarkeit wird durch viele andere Qualitätskriterien beeinflusst.</li>
+                    </ul>
+
+                    
+                </ul>
+            </section>
+
+            <!--
+            <section>
+                <h3> Unit tests </h3>
+
+                <ul>
+                    <li> Weshalb sind interne Qualit&auml;ten auch f&uuml;r den Benutzer wichtig?</li>
+                    <li> Warum beeinflusst die Prozessqualit&auml;t die Produktqualit&auml;t?
+                        <li> Wehalb ist Wartbarkeit besonders wichtig? </li>
+                        <li> Angenommen es tritt ein unvorhergesehener Fehler auf. Trotzdem l&auml;sst das Programm korrekt weiter.
+                            Ist die Software nun robust oder korrekt?
+                        </li>
+                        <li> Weshalb kann ein zuverl&auml;ssiges Programm sogar dann n&uuml;tzlich sein, wenn es nicht korrekt
+                            ist?
+                        </li>
+                </ul>
+
+
+            </section>
+                -->
+        </div>
+    </div>
+
+
+
+    <script src="../../slides/lib/js/head.min.js"></script>
+    <script src="../../slides/js/reveal.js"></script>
+
+    <script>
+        file: ///home/luetma00/documents/teaching/sweng/theory/lecture1/admin.html#/1
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            center: false,
+            // Display the page number of the current slide
+            slideNumber: false,
+            /*
+            chalkboard: {
+                src: "chalkboard.json",
+                readOnly: undefined,
+                transition: 800,
+                theme: "whiteboard",
+                //toggleChalkboardButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+                //toggleNotesButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+                // configuration options for notes canvas and chalkboard
+                color: ['rgba(0,0,255,1)', 'rgba(255,255,255,0.5)'],
+                background: ['rgba(127,127,127,.1)', 'plugin/chalkboard/img/whiteboard.png'],
+                pen: ['url(plugin/chalkboard/img/boardmarker.png), auto', 'url(plugin/chalkboard/img/boardmarker.png), auto'],
+            },*/
+            dependencies: [{
+                src: '../../slides/plugin/markdown/marked.js'
+            },
+            { src: '../../slides/plugin/mouse-pointer/mouse-pointer.js', async: true }, 
+            {
+                src: '../../slides/plugin/markdown/markdown.js'
+            },
+            {
+                src: '../../slides/plugin/notes/notes.js',
+                async: true
+            },
+           /* {
+                src: '../../slides/plugin/chalkboard/chalkboard.js'
+            },*/
+            {
+                src: '../../slides/plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+            ],/*
+            keyboard: {
+                67: function () {
+                    RevealChalkboard.toggleNotesCanvas()
+                }, // toggle notes canvas when 'c' is pressed
+                66: function () {
+                    RevealChalkboard.toggleChalkboard()
+                }, // toggle chalkboard when 'b' is pressed
+                46: function () {
+                    RevealChalkboard.clear()
+                }, // clear chalkboard when 'DEL' is pressed
+                8: function () {
+                    RevealChalkboard.reset()
+                }, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+                68: function () {
+                    RevealChalkboard.download()
+                }, // downlad recorded chalkboard drawing when 'd' is pressed
+            },*/
+        });
+    </script>
+</body>
+
+</html>

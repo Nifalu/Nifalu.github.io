@@ -1,0 +1,559 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Konstruktive und Deskriptive Spezifikationen</title>
+
+	<link rel="stylesheet" href="../../slides/css/reveal.css">
+	<link rel="stylesheet" href="../../slides/css/theme/unibas.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="../../slides/lib/css/zenburn.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '../../slides/css/print/pdf.css' : '../../slides/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section class="center">
+				<div class="titleblock">
+
+					<p>
+						<img class="plain" src="../../slides/images/uni-basel-logo.png" style="width:15%;float:left;display:block" />
+					</p>
+
+
+					<h1 style="clear:both;margin-top:20%">
+						Verifikation von Software
+
+					</h1>
+					<h3>
+						Marcel L&uuml;thi <br> Departement Mathematik und Informatik
+					</h3>
+
+                </div>
+                
+                <aside class="notes">               
+                   Herzlich willkommen zu diesem Screencast zum Thema Verifikation von Software. 
+                   Inzwischen sind wir in der Vorlesung Softweit, dass wir wissen wie wir Anforderungen 
+                   identifizieren, diese Spezifizieren, die Software entwerfen und schliesslich implementieren. 
+                   In einer perfekten Welt wären wir nun fertig. 
+                   Da wir jedoch nicht in einer perfekten Welt leben, müssen wir uns nun anschauen, wie wir verifizieren können ob 
+                   das, was wir gemacht haben auch sinnvoll war. 
+                   
+                </aside>
+
+			</section>
+    
+
+            <section>
+                <h1>Validierung und Verifikation</h1>
+
+                <div style="float:left; width:50%; text-align:left">
+                    <h2>Validierung:</h2>
+                <ul>
+                    <li>Bauen wir das richtige Produkt?</li>
+                    <li>K&ouml;nnen Nutzer die festgelegten Ziele erreichen?</li>
+                    
+                </ul>
+            </div>  
+            <div style="float:right; width:50%; text-align:left">
+                <h2>Verifikation:</h2>
+                    <ul><li>Bauen wir das Produkt richtig? </li>
+                    <li>Erf&uuml;llt Produkt spezifizierte Eigenschaften?</li>
+                    </ul>
+            </div>
+            <blockquote style="width:100%; display:inline-block; text-align:left" class="fragment">
+                <h4>Beispiel: Zulassung Medizinprodukt  </h4>
+                    <ul>
+                    <li>Nachweis des medizinischen Nutzens</li>
+                    <li>Nachweis, dass Funktion erf&uuml;llt wird</li>
+                </ul>
+                </ul>
+            </blockquote>
+
+            <aside class="notes">
+                Als erstes etwas Terminologie. In der Softwareengineering Literatur wird machmal explizit zwischen Validierung und Verifikation unterschieden. 
+                Bei der Validiereung steht die Frage im Vordergrund, ob wir das richtige Produkt bauen, also das Produkt, 
+                mit dem die Benutzer die festgelegten Ziele erreichen können. 
+                Bei der Verifikation überprüfen wir hingegen, ob das Produkt richtig gebaut ist, also ob es wirklich die spezifizierten Eigenschaften hat. 
+
+                Wir illustrieren diesen Unterschied anhand von einem Beispiel aus der Medizin. Wenn es um die Markzulassung für ein neues Medikament geht, 
+                hat muss die Zulassungsbehörde zwei dinge Entscheiden: Erstens, dass das Produkt wirklich einen Medizinischen Nutzen erfüllt. Und zweitens, 
+                dass das Produkt sich genau so verhält, wie es beschreiben ist, dass es also zum Beispiel keine nicht dokumentierten Nebenwirkungen hat. 
+                
+                Die Unterscheidung wird in der Literatur aber nicht immer konsequent verwendet. Auch wir sprechen im folgenden nur noch von Verifikation 
+                von Software, meinen aber damit immer implizit beides.
+            </aside>
+            </section>
+
+            <section>
+                <h1>Warum braucht es Verifikation?</h1>
+                <blockquote>
+                    Nicht n&ouml;tig in perfekter Welt!
+                </blockquote>
+                <ul >
+                    <li>Fehler in jedem Prozessschritt möglich</li>
+                    <ul>
+                        <li>No silver bullet: Fehler nicht ganz zu verhindern</li>
+                    </ul>
+                    <li>Probleme:</li>
+                    <ul>
+                        <li>Unklarheiten / Mehrdeutigkeiten</li>
+                        <li>Falsche Annahmen</li>
+                        <li>Falsche Schlussfolgerungen / Fehler</li>
+                        <li>Fehler in Systemumgebung</li>
+                    </ul>
+                </ul>
+                <aside class="notes">
+                    Wie gesagt, bräuchten wir in einer Perfekten Welt keine Verifikation. Wir würden Anhand der Identifizierten Anforderungen logisch 
+                    die Spezifikation und das Design herleiten, und dann die Software perfekt implementieren. Leider funktioniert dies in der praxis aber nicht 
+                    so. Es ist unvermeidlich, dass sich in jeden Schritt fehler einschleichen. Softwareentwicklung ist inhärent komplex, und es gibt
+                    keine Silver bullet, also keine Methode die die Komplexität soweit reduziert, dass wir keine Fehler mehr machen. 
+                    Probleme hingegen gibt es viele. Unsere Spezifikationen sind unklar und nicht eindeuttig. Wir machen falsche annnahme oder ziehen 
+                    falsche Schlussfolgerungen. Und nicht zuletzt bauen wir ein Programm auch auf einer Systemumgebugn auf, die auch häufig nicht perfekt. ist. 
+
+                    Der Verifikationsschritt ist also essentieller Bestandteil jedes Softwareprojekts.
+                </aside>
+            </section>
+
+            <!--
+            <section>
+                <h1>Eigenschaften von Verifikationen </h1>
+                <ul>
+                    <li>Resultat einer Verifikation nicht bin&auml;r</li>
+                    <ul>
+                        <li>Software wird immer kleine Defekte enthalten</li>
+                        <li>Grad des Defekts ausschlaggebend</li>
+                    </ul>
+                    <li>Resultat nicht immer Objektiv</li>
+                    <ul>
+                        <li>Schwierig Qualit&auml;tsmerkmale wie Benutzbarkeit objektiv zu messen</li>
+                    </ul>
+                
+                </ul>
+
+                <aside class="notes">
+
+                </aside>
+
+            </section>
+-->
+
+            <section>
+                <h1>Hauptans&auml;tze</h3>
+
+                <div style="float:left;width:50%; text-align:left">
+                <h2>Analyse <br/> (statisch)</h2>
+                        <ul>
+                            <li>Code reviews</li>
+                            <li>Automatisierte Codeanalyse</li>
+                            <li>Formale Korrektheitsbeweise</li>
+        
+                        </ul>
+                    </div>
+                    <div style="float:right;width:50%; text-align:left"> 
+                    <h2>Experimentieren (dynamisch)</h2>
+                    <ul>
+                        <li>Verhaltens des Programms testen</li>
+                        <ul><li>Manuelle Ausf&uuml;hrung </li>
+                            <li>Automatisierte Tests</li>
+                    </ul>    
+                    </ul>
+                </div>
+                
+                <aside class="notes">
+                    Wir unterscheiden zwei Hauptansätze der Verifikation. Die erste Möglichkeit ist die statische analyse vom Code. 
+                    Verifikations wird dadurch erreicht, dass wir das Design oder den Code anschauen und analysieren, ohne ihn auszuführen. 
+                    Wir haben hier verschiedene Möglichkeiten zur Verfügen. Code reviews von Projektpartnern, automatisierte Codeanalyse unterstützt
+                    durch moderene Entwicklungstools, oder sogar komplett formale Korrektheitsbeweise.
+
+                    Die zweite Möglichkeit zur Verifikation ist das Experimentieren mit der Software. Das heisst wir führen das Programm aus und 
+                    testen das Verhalten. Dies kann Manuell oder automatisiert, zum Beispiel mittels Unit Tests, passieren. 
+
+                    Wir werden uns in diesem Kurs vor allem auf das Testen konzentrieren. Wir wollten uns aber trotzdem im folgenden die 
+                    anderen Möglichkeiten noch etwas näher anschauen. 
+                </aside>
+
+
+            </section>
+
+            <section>
+                    <h1>Code review</h1>
+
+                    <blockquote>
+                            Durchsicht des Programms durch andere Person(en)
+                    </blockquote>
+                
+                <div style="float:center; font-size:smaller; text-align:left; margin-left:auto; margin-right:auto">
+               <p>Ziele:</p>
+                <ul>
+                    <li>Missverständnisse und Fehler entdecken</li>
+                    <li>Codequalität verbessern</li>
+                    <li>Zusammenarbeit stärken</li>
+                    <li>Wissen verbreiten</li>
+                </ul>
+            </div>
+
+            <aside class="notes">
+                Eien sehr einfache aber auch sehr effektive Methode der Verifikation die das Code review. 
+                Bei Code Reviews treffen sich mehrere Entwickler, und analysieren gemeinsam ein Stück code auf 
+                Fehler, verletzungen der Spezifikationen oder Programmierrichtlinien und andere Probleme. 
+                Regelmässige Code-Reviews bringen auch neben dem Aufdecken von Fehlern grosse Vorteile. Typischweise helfen die 
+                Reviews, die Codequalität zu verbessern. Dies passiert aus zwei Gründen: Erstens gibt sich der Etnwickler mehr mühe, wenn er
+                weiss dass sein Code begutachtet wird. Zweitens können die Verbesserungsvorschläge vom Reviewer miteinbezogen werden. 
+                Weitere wichtige Vorteil von Code reviews sind, dass dadurch die Zusammenarbeit im Team gestärkt wird, und das Wissen 
+                über die Funktionsweise eines Stück codes, auf mehrere Mitarbeiter verteilt wird. 
+
+            </aside>
+
+                </section>
+    
+
+            <section>
+                <h1>(Statische) Codeanalyse</h1>
+                <ul>
+                    <li>Durchgehen vom Code. Pr&uuml;fen auf typische Probleme.</li>
+                    <ul>
+                        <li>Uninitialisierte Variablen</li>
+                        <li>Index out of bounds</li>
+                        <li>M&ouml;glicher Zugriff auf Null-Werte</li>
+                        <li>...</li>
+                    </ul>
+                    <li>Wird heute durch Tools unterst&uuml;tzt</li>                    
+                </ul>                
+                <aside class="notes">
+                    Eine weitere Technik zum Verifizieren ist die statische Codeanalyse. Diese kann zum Beispiel auch als Teil von einem 
+                    Code review durchgeführt werden. Die Idee ist, dass man durch eine Checkliste von üblichen Problemen geht, und den Code auf 
+                    das Vorkommen von diesen Problemen unterstucht. Was Typische Probleme sind variiert je nach Programmiersprache. In vielen Programmiersprachen
+                    treten aber dinge wie uninitialisierte Variablen, Grenzüberschreitungen in arrays, oder Zugriff auf null WErte auf. 
+
+                    Statische Codeanalyse wird in modernen Programmiersprachen durch automatisierte Werkzeuge unterstützt. 
+                </aside>
+            </section> 
+
+
+            <section>
+                <h1> Statische Analyse - Toolbeispiel</h1>
+
+                <img src="../../slides/images/intellij.png" class="plain" style="width:70%"/>
+
+                <aside class="notes">
+                    In Intellij Idea können wir zum Beispiel den Code durch ....
+                </aside>
+            </section>
+
+
+           <section>
+                <h1>Formale Korrektheitsbeweise</h1>
+
+                <pre><code data-trim class="pascal">
+                    {true}
+                    begin
+                        read(a); read(b);
+                        x = a + b
+                        write(x);
+                    end
+                    {output = input1 + input2}
+                </code></pre>
+                
+                <ul>
+                    <li>Ziel: Beweisen, dass Programm Spezifikationen erfüllt. </li>                
+                        <li>Braucht "automatische Theorembeweiser" für nicht-triviale Programme</li>
+                    </ul>
+                
+                <aside class="notes">
+                    Eine weitere Möglichkeit zur Verifikation, die vor allem für sicherheitskritische Anwendungen eingesetzt wird, sind
+                    formale Korrektheitsbeweise. Als Voraussetzung haben wir hier, dass die Programme formal korrekt spezifiziert wurden. 
+                    Das Ziel ist es dann zu beweisen, dsas die Implementation die Spezifikationen erfüllt. 
+                    
+                    Wir schauen uns das an einem Beispiel an, bei dem die Spezifikationen in den Klammern angegeben sind. 
+                    Das Programm macht keine Vorbedingungen an die Eingabe, was hier durch true dargestellt ist, also die Vorbedingungen sind immer erfüllt. 
+                    Jedoch verlangt das Programm, dass der output genau der Summe von zweier eingelesener Zahlen entspricht. 
+                    
+                    Um zu beweisen, dass die Implementation wirklich das leistet, gehen wir jetzt schritt für schritt durch das Programm. 
+                    Wri sehen, dass am Ende write(x) aufgerufen ist. WEnn x also genau der summer der beiden iNputs eintspricht, wäre das
+                    Programm korrekt. Wir sehen, dass x die summe zweier Variablen a und b ist. Also müssen wir nun noch überprüfen, 
+                    dass a und b den eingaben entsprechen. Das sehen wir aber in der ersten Zeiel vom Programm. Das Programm ist also korrekt. 
+                    
+                    Für grössere Programme sind solche Korrektheitsbeweise sehr aufwändig und können nicht mehr von Hand gemacht werden. 
+                    In der Praxis werden dafür automatische Theorembeweiser eingesetzt. 
+                    
+                </aside>
+            </section>
+         
+            <section>
+                <h1>Testen</h1>
+
+                <ul>
+                    <li>Verhalten eines Programms durch Stichproben von Eingaben &uuml;berpr&uuml;fen.</li>
+                    <li>Ziel: Beispiele von inkorrektem Verhalten finden</li>
+                </ul>
+
+                
+                <blockquote>
+                    <p>
+                        Program testing can be used to show the presence of bugs, but never to show their absence!
+                    </p>
+                    <p style="text-align:right">Edgar Dijkstra (1970)</p>
+                </blockquote>
+                <aside class="notes">
+                    Da formale Korrektheitsbeweise in der Praxis sehr umständlich sind, und die anderen statischen Verfahren alleine nicht mächtig 
+                    genug sind um ein Programm zu verifizieren, ist das in der praxis wichtigste Verfahren das Testen des Programms. 
+                
+                    Dabei überprüfen wir auf einer Menge von Möglichen Eingaben, ob das Programm das richtige Verhalten aufweist. 
+                    Das Ziel ist hier nicht die Korrektheit zu beweisen, sondern möglichst einen Fehler zu finden.                     
+                    
+                    Wie Edgar Dijkstra schön gesagt hat, kiönnen wir nämlich nur immer nachweisen, dass das Program Fehler hat, aber nie, 
+                    dass das Programm fehlerfrei ist.  
+
+                    Wenn wir keinen Fehler finden, nehmen wir das als Hinweis, dass das Programm sich in den meisten Fällen richtig verhält. 
+                </aside>
+            </section>
+
+            <!--
+            <section>
+                <h3>Ziele des Testens</h3>
+                <blockquote style="width:100%; margin-left:auto; margin-right:auto">
+                <ul>
+                    <li>Trotz Limitierung f&uuml;hrt kein Weg am Testen vorbei</li>                
+                    <ul><li>Auch hier ist <mark class="highlight">Genauigkeit und Systematik</mark> wichtig.</li></ul>
+                </ul>
+            </blockquote>
+                <div style="text-align:left">
+                    Ziele:
+                    <ul>
+                    <li>Fehler finden und isolieren</li>
+                    <li>Tests sollten wiederholbar sein</li>
+                    <ul>
+                        <li>Schwierigkeit: Zufallszahlen, Nebenl&auml;ufigkeit, Systemumgebung</li>
+                    </ul>
+                    <li>Genauigkeit: Tests sollten die spezifizierten Eigenschaften genau testen.
+                    </li>
+                </ul>
+            </div>            
+            </section>
+-->
+
+            <section>
+                <h1>Testing in the small / large</h1>
+        
+                        <figure>
+                            <img src="../../slides/images/test-progression-small-large.png" class="plain" />
+                            <figcaption style="font-size:x-small">Abbildung angelehnt an: Pfleeger & Atlee, Software Engineering, Abbildung 8.3</figcaption>
+                        </figure>
+        
+                <aside class="notes">
+                    Wir haben in der Einführung gesehen, dass wir "Programmieren im Kleinen und Programmieren im Grossen unterscheiden können.
+                    Programmieren im kleinen machen wir immer dann, wenn eine Person die Funktionalität des Programms noch komplett überschauen kann. 
+                    Beim Programmieren im Grossen, dem Software Engineering, haben wir es dann mit grösseren Systemen zu tun. 
+
+                    Beim Testen machen wir eine Ähnliche unterscheidung. Beim Testen im Kleinen testet ein Entwickler die Module die er oder Sie entwickelt 
+                    hat. Dies passiert häufig mittels automatisierten Unit Tests. Die einzelnen Module zu testen ist jedoch natürlich nicht ausreichend, 
+                    um das gesamtsystem zu testen. Es muss auch im grossen getestet werden. Dies wird häufig von einem Separaten Testteam gemacht.
+                    In einem ersten schritt werden im einem Integrationstest Module schrittweise zusammengefügt. 
+                    Das ganze Programm wird dann in einem Funktionstest auf die korrekte Funktionalität überprüft. Eventuell wird dann auch ein 
+                    Performancetest durchgeführt. Bevor das funktionierende System an den Kunden ausgeliefert wird, wird mit dem Kunden zusammen ein Akzeptanztest durchgefürht. 
+                    Zum Schluss muss auch das fertig installierte System auf der Kundenseite getestet werden. 
+
+                </aside>
+
+
+            </section>
+
+            <!--
+            <section>
+                    <h3>Unit Testing</h3>
+
+                    <blockquote style="width:100%">Testen von Funktionalen Einheiten (Module)</blockquote>
+                    <div style="float:left; width:45%">
+                    <ul>
+                        <li>H&auml;ufig, aber nicht zwingend, automatisiert</li>
+                        <li>Unterst&uuml;tzung durch testing Frameworks (wie JUnit)</li>
+                    </ul>                    
+                </div>
+                <div style="float:right; width:55%">
+                    <figure>
+                    <pre><code data-trim style="font-size:smaller">
+                        public class FoobarTest {
+                          @Before
+                          public void setUp() throws Exception {
+                            // Code executed before each test
+                          }                             
+                          @Test
+                          public void testOneThing() {
+                           // Code that tests one thing
+                          }
+                          @After
+                          public void tearDown() throws Exception {
+                            // Code executed after each test 
+                          }                             
+                        }
+                    </code></pre>
+                    <figcaption style="font-size:small">Beispiel nach : https://en.wikipedia.org/wiki/JUnit</figcaption>
+                </figure>
+                </div>
+            </section>
+-->
+
+            <section>
+                    <h1>White box / Black box testing</h1>
+    
+                    <div style="float:right;width:50%">
+                        <h4>Black box testing</h4>
+                        <ul>
+                            <li>Funktionales Testen</li>
+                            <li>Partitionierung der Testf&auml;lle basierend auf Spezifikation</li>
+                            <li><mark class="highlight">Testen was das Programm
+                                machen sollte</mark>
+                            </li>
+                        </ul>
+                    </div>
+    
+                    <div style="float:left;width:50%">
+                        <h4> White box testing</h4>
+                        <ul>
+                            <li>Strukturelles Testen</li>
+                            <li>Partitionierung der Testf&auml;lle basierend auf interner Struktur
+                            </li>
+                            <li><mark class="highlight">Testen was das Programm
+                                macht</mark>
+                            </li>
+                        </ul>
+                    </div>
+                    <aside class="notes">
+
+                        Neben der Unterscheiden zwischen "Testen im Grossen " und "Testen im kleinen " 
+                        unterscheiden wir zusätzlich auch immer zwei ARten von Tests: Die White Box tests, 
+                        sowie die Black box Tests. 
+                        Bei den White Box tests wählen wir unsere Testfälle anhand der Struktur vom Programm aus. 
+                        Wir nehmen also an, dass wir genau Wissen, wie das Programm aufgebaut ist. 
+                        Wir testen also ob das Programm das macht, was wir mit unserere Implementation erreichen wollten. 
+                        
+                        Beim Black box testing hingegen betrachten wir das Programm als Black box, und testen nur, ob 
+                        für die Testfälle der Output des Programms dem spezifizierten Verhalten entspricht. Wir testen alss, 
+                        was das Programm machen sollte. 
+                                            
+                        Wir werden uns diese unterschiede nächste Woche genauer anschauen.
+                        Diese Woche wollen wir uns nun erstmals noch die theoretischen Grundlagen des Testens anschauen.
+                    </aside>
+
+                </section>
+    
+
+        
+    
+                <!--
+
+            <section>
+                <h3>Unit Tests</h3>
+                <ul>
+                    <li>Was ist der Unterschied zwischen Validierung und Verifikation?</li>
+                    <ul><li>Weshalb ist beides wichtig?</li></ul>
+                    <li>Weshalb m&uuml;ssen sogar mathematisch exakte, formale Spezifikationen validiert werden?</li>                    
+                    <li>Weshalb kann die statische Analyse nur einen kleinen Teil der Fehler finden?</li>
+                    <li>Was ist gemeint damit, dass wir uns beim Testen nicht auf Kontinuit&auml;t verlassen k&ouml;nnen?</li>
+                    <li>Was ist der Unterschied zwischen "Testing in the Small" und "Testing in the Large"</li>
+                </ul>
+            </section>
+    -->
+        </div>
+    </div>
+
+
+
+
+ 
+    <script src="../../slides/lib/js/head.min.js"></script>
+    <script src="../../slides/js/reveal.js"></script>
+
+    <script>
+        file: ///home/luetma00/documents/teaching/sweng/theory/lecture1/admin.html#/1
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            center: false,
+            transition: 'none',           
+            /* 
+            chalkboard: {
+                src: "chalkboard.json",
+                readOnly: undefined,
+                transition: 800,
+                theme: "whiteboard",
+                //toggleChalkboardButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+                //toggleNotesButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+                // configuration options for notes canvas and chalkboard
+                color: ['rgba(0,0,255,1)', 'rgba(255,255,255,0.5)'],
+                background: ['rgba(127,127,127,.1)', '../../slides/plugin/chalkboard/img/whiteboard.png'],
+                pen: ['url(../../slides/plugin/chalkboard/img/boardmarker.png), auto', 'url(../../slides/plugin/chalkboard/img/boardmarker.png), auto'],
+            },
+            */
+            math: {
+                    // mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                    config: 'TeX-AMS_HTML-full'
+                },
+
+            dependencies: [{
+                src: '../../slides/plugin/markdown/marked.js'
+            },
+            {
+                src: '../../slides/plugin/markdown/markdown.js'
+            },
+            { src: '../../slides/plugin/mouse-pointer/mouse-pointer.js', async: true }, 
+            {
+                src: '../../slides/plugin/notes/notes.js',
+                async: true
+            },
+            /*
+            {
+                src: '../../slides/plugin/chalkboard/chalkboard.js'
+            },
+            */
+            {
+                src: '../../slides/plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            },
+            { src: '../../slides/plugin/math/math.js', async: true }
+                        ],
+            keyboard: {
+                /*
+                67: function () {
+                    RevealChalkboard.toggleNotesCanvas()
+                }, // toggle notes canvas when 'c' is pressed
+                66: function () {
+                    RevealChalkboard.toggleChalkboard()
+                }, // toggle chalkboard when 'b' is pressed
+                46: function () {
+                    RevealChalkboard.clear()
+                }, // clear chalkboard when 'DEL' is pressed
+                8: function () {
+                    RevealChalkboard.reset()
+                }, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+                68: function () {
+                    RevealChalkboard.download()
+                }, // downlad recorded chalkboard drawing when 'd' is pressed
+                */
+            },
+        });
+    </script>
+</body>
+
+</html>

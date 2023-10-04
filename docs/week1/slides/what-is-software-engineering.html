@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Software Engineering</title>
+
+	<link rel="stylesheet" href="../../slides/css/reveal.css">
+	<link rel="stylesheet" href="../../slides/css/theme/unibas.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="../../slides/lib/css/zenburn.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '../../slides/css/print/pdf.css' : '../../slides/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section class="center">
+				<div class="titleblock">
+
+					<p>
+						<img class="plain" src="../../slides/images/uni-basel-logo.png" style="width:15%;float:left;display:block" />
+					</p>
+
+
+					<h1 style="clear:both;margin-top:20%">
+						Was ist Software Engineering
+
+					</h1>
+					<h3>
+						Marcel L&uuml;thi <br> Departement Mathematik und Informatik
+					</h3>
+
+				</div>
+			</section>
+
+			<section>
+				<h1>Software engineering</h1>
+
+
+				<blockquote cite="https://google.com">
+					The application of a <mark class="highlight"> systematic</mark>, <mark class="highlight"> disciplined </mark> and <mark class="highlight"> quantifiable</mark> approach to the development, operation, and maintanance of software.
+
+					<p style="text-align:right"> <small> IEEE Standard Glossary of Software Engineering Terminology </small> </p>
+
+				</blockquote>
+
+			</section>
+
+			<section>
+				<h1>Software engineering</h1>
+
+
+				<blockquote cite="https://google.com">
+					<p> The <mark class="highlight"> multi-person</mark> construction of <mark class="highlight"> multi-version</mark> software. </p>
+
+					<p style="text-align:right"> <small> David Parnas, 1978 </small> </p>
+				</blockquote>
+
+			</section>
+
+			<section>
+				<h1>Programmieren vs. Software engineering </h1>
+				<div style="float:left;width:50%">
+					<img src="../../slides/images/programmer.png" style="width:30%" class="plain"/>
+					<ul>
+						<li>Programmieren</li>
+						<ul>
+							<li> Programmieren im kleinen </li>
+						</ul>
+					</ul>
+				</div>
+				<div style="float:right;width:50%">
+					<img src="../../slides/images/discussing.png" style="width:40%; " class="plain"/>
+					<ul>
+						<li>Software-engineering</li>
+						<ul>
+							<li> Programmieren im grossen </li>
+						</ul>
+					</ul>
+				</div>
+
+
+				<div style="font-size:x-large; clear:both; display:inline-block; margin-top:1cm; width:100%" class="framebox">
+					DeRemer, Kron<br>"Programming-in-the large versus programming-in-the-small". <br/> Proc. of the international conference
+					on Reliable software. (1975)
+				</div>
+			</section>
+
+			<!--
+			<section>
+				<h3> Engineering vs. Software engineering</h3>
+				<div style="float:left; width: 40%">
+					<figure>
+						<img src="images/bridge.jpg" class="plain" />
+						<figcaption style="font-size:x-small">By The original uploader was Sam at English Wikipedia - Transferred from en.wikipedia to Commons., CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=3891004</figcaption>
+					</figure>
+				</div>
+				<div style="float:right; width: 60%">
+					<ul>
+						<li> Ingenieur kann System genau spezifizieren </li>
+						<ul>
+							<li> Belastbarkeit, Toleranzen,... </li>
+							<li> Eigenschaften unabh&auml;ngig vom Design spezifiziert</li>
+							<li> Mathematik (Formeln) etabliert Eigenschaften </li>
+						</ul>
+					</ul>
+				</div>
+				<ul>
+					<li> Wie spezifiziert und verifiziert man Eigenschaften einer Buchhaltungssoftware? </li>
+				</ul>
+			</section>
+		-->
+
+			<section>
+				<h1> Software Engineering und System Design</h1>
+
+				<div style="float:left; width: 65%">
+
+					<ul>
+						<li> SE immer Teil eines Systems</li>
+
+						<ul>
+							<li>Sehr interdisziplin&auml;r</li>
+						</ul>
+						<li>Kompromisse nötig</li>
+						<ul>
+							<li>Implementation in Hardware oder Software?</li>
+							<li>Wieviel wird automatisiert?</li>
+							<li> ... </li>
+						</ul>
+					</ul>
+				</div>
+				<div style="float:right; width: 35%; vertical-align:middle">
+					<figure>
+						<img src="../../slides/images/radio-therapy.jpg" class="plain" />
+						<figcaption style="font-size:x-small">By Michael Goodyear - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=61844004</figcaption>
+					</figure>
+				</div>
+
+			</section>
+
+			<section>
+				<h1>Anforderungen an Software-Ingenieure</h1>
+
+				<div style="width:100%">
+					<ul>
+						<li> Gute Programmierkenntnisse </li>
+						<ul>
+							<li>inkl. Algorithmen und Datenstrukturen </li>
+						</ul>
+						<li> "Im grossen" programmieren können</li>
+						<ul>
+							<li> Kenntnisse Design/Architektur</li>
+						</ul>
+						<li> Fähigkeit, vage Requirements in genaue Spezifikationen zu &uuml;bersetzen </li>
+						<li> Offenheit gegenüber Veränderungen </li>
+						<li> Wechseln zwischen Abstraktionsebenen</li>
+						<li> Kommunikationsf&auml;higkeit </li>
+					</ul>
+				</div>
+			</section>
+
+			<section>
+				<h1> Software Lebenszyklus </h1>
+
+				<blockquote> Softwareentwicklung ist nicht nur Programme schreiben </blockquote>
+
+				<div style="float:left; width: 100%">
+					<img src="../../slides/images/waterfall.png" style="width:70%" class="plain" />
+				</div>
+
+			</section>
+
+			<section>
+				<h1> Beziehung zu anderen Bereichen der Informatik </h1>
+				<img src="../../slides/images/connections.png" style="width:70%" class="plain" />
+			</section>
+
+			<!--
+			<section>
+				<h1> Unit tests </h1>
+				<ul>
+					<li>
+						Was sind neben dem Programmieren die Hauptt&auml;tigkeiten eines Softwareentwicklers?
+					</li>
+					<li>
+						Warum ist der "Multi-version" Aspekt in Parnas' Definition von Software Engineering essentiell?
+					</li>
+					<li> Erkl&auml;re den Unterschied zwischen Software-engineering und Programmieren </li>
+					<li>
+						Warum sollte beim Entwickeln einer Software immer das gesamte System betrachtet werden?
+					</li>
+					<li>
+						Weshalb gibt es im Software Engineering viel &Uuml;berlapp mit anderen Bereichen der Informatik?
+					</li>
+				</ul>
+			</section>
+-->
+		</div>
+	</div>
+
+
+
+
+
+
+	<script src="../../slides/lib/js/head.min.js"></script>
+	<script src="../../slides/js/reveal.js"></script>
+
+	<script>
+		file: ///home/luetma00/documents/teaching/sweng/theory/lecture1/admin.html#/1
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			center: false,
+			chalkboard: {
+				src: "chalkboard.json",
+				readOnly: undefined,
+				transition: 800,
+				theme: "whiteboard",
+				//toggleChalkboardButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+				//toggleNotesButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+				// configuration options for notes canvas and chalkboard
+				color: ['rgba(0,0,255,1)', 'rgba(255,255,255,0.5)'],
+				background: ['rgba(127,127,127,.1)', '../../slides/plugin/chalkboard/img/whiteboard.png'],
+				pen: ['url(../../slides/plugin/chalkboard/img/boardmarker.png), auto', 'url(../../slides/plugin/chalkboard/img/boardmarker.png), auto'],
+			},
+			dependencies: [{
+				src: '../../slides/plugin/markdown/marked.js'
+			},
+			{
+				src: '../../slides/plugin/markdown/markdown.js'
+			},
+			{
+				src: '../../slides/plugin/notes/notes.js',
+				async: true
+			},
+			{
+				src: '../../slides/plugin/chalkboard/chalkboard.js'
+			},
+			{
+				src: '../../slides/plugin/highlight/highlight.js',
+				async: true,
+				callback: function () {
+					hljs.initHighlightingOnLoad();
+				}
+			}
+			],
+			keyboard: {
+				67: function () {
+					RevealChalkboard.toggleNotesCanvas()
+				}, // toggle notes canvas when 'c' is pressed
+				66: function () {
+					RevealChalkboard.toggleChalkboard()
+				}, // toggle chalkboard when 'b' is pressed
+				46: function () {
+					RevealChalkboard.clear()
+				}, // clear chalkboard when 'DEL' is pressed
+				8: function () {
+					RevealChalkboard.reset()
+				}, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+				68: function () {
+					RevealChalkboard.download()
+				}, // downlad recorded chalkboard drawing when 'd' is pressed
+			},
+		});
+	</script>
+</body>
+
+</html>

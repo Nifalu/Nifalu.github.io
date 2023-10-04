@@ -1,0 +1,471 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>	Testen im Grossen </title>
+
+	<link rel="stylesheet" href="../../slides/css/reveal.css">
+	<link rel="stylesheet" href="../../slides/css/theme/unibas.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="../../slides/lib/css/zenburn.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '../../slides/css/print/pdf.css' : '../../slides/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section class="center">
+				<div class="titleblock">
+
+					<p>
+						<img class="plain" src="../../slides/images/uni-basel-logo.png" style="width:15%;float:left;display:block" />
+					</p>
+
+
+					<h1 style="clear:both;margin-top:20%">
+						Testen im Grossen
+
+					</h1>
+					<h3>
+						Marcel L&uuml;thi <br> Departement Mathematik und Informatik
+					</h3>
+
+                </div>
+                
+                <aside class="notes">               
+                    Herzlich Willkommen zu diesem Screencast, zum Thema Testen im Grossen.
+                   
+                </aside>
+
+			</section>
+    
+
+            <section>
+                <h1>Testen im Grossen</h1>
+
+                <figure>
+                    <img src="../../slides/images/test-progression-small-large-2.png" class="plain"  />
+                    <figcaption style="font-size:x-small">Abbildung nach: Pfleeger & Atlee, Software Engineering, Abbildung 8.3</figcaption>
+                </figure>
+
+                <aside class="notes">
+                    Nachdem wir uns angeschaut haben, wie wir die individuellen Module testen, müssen wir als nächstes Besprechen, wie das Gesamtsystem
+                    getestet werden kann. Dies geschieht in verschiedenen Schritten. In einem ersten Schritt werden die individuell getesteten Module in einem 
+                    Integrationstest zu einem gesamtsystem zusammengebaut. Danach wird ein Systemtest durchgeführt. Ein Systemtest soll sicherstellen, dass 
+                    das GEsamtsystem den Anforderungen entspricht. Dabei müssen einerseits die Funktionalen Anforderungen getestet werden, andererseits aber
+                    auch die spezifizierten Qualitätsanforderungen, wie zum Beispiel die Performance vom System. Im nächsten Schritt wird dann vom Kunden ein 
+                    Akzeptanstest durchgeführt. Falls der Akzeptanztest noch nicht auf dem Kudnensystem stattgefunden hat, muss auch noch ein Installationstest
+                    auf dem Endsystem des Kunden ausgeführt werden. 
+                </aside>
+            </section>
+
+            <section>
+                <h1>Testen im Grossen</h1>
+
+                <figure>
+                    <img src="../../slides/images/test-progression-small-large-3.png" class="plain"  />
+                    <figcaption style="font-size:x-small">Abbildung nach: Pfleeger & Atlee, Software Engineering, Abbildung 8.3</figcaption>
+                </figure>
+
+                <aside class="notes">
+                    Der Integrtions und Systemtest müssen nicht nur einmal nach Entwicklung des Systems durchgeführt werden, sondern wenn immer das
+                    System verändert wird, also zum Beispiel nachdem eine neue Version der Software Entwickelt wurde, oder auch nachdem Bugs behoben wurden. 
+                    Dieses wiederholte Ausführen der einmal definierten  Testfälle nennt sich Regressionstest. 
+
+                    Zuerst wollen wir jedoch nochmals auf die Modultests zurückkommen, diesmal aber im Kontext des Gesamtsystems.
+                </aside>
+            </section>
+
+
+            <section>
+                <h1>Modultest (Unit Test)</h1>
+
+                <img src="../../slides/images/dependency-graph.png" class="plain" style="width:60%"  />
+                <ul>
+                    <li>Module sind Teil von grossem System</li>
+                    <li>Hilfskonstrukte nötig:</li>
+                    <ul>
+                        <li>Andere Module noch in Entwicklung</li>
+                        <!-- <li>Zugriff auf richtige Ressourcen  teuer</li> --> 
+                    </ul>
+                </ul>
+
+
+
+                
+                <aside class="notes">
+                    Wir sind bisher immer davon ausgegangen, dass ein Entwickler ein Modul selbständig testen kann. Dies ist jedoch nicht immer ganz einfach. 
+                    Ein Modul ist ja Teil von einem Gesamtsystem, was ziemlich komplizierte Abhängigkeiten haben kann. Da während der Entwicklung des Systems
+                    vielleicht noch gar nicht alle zum testen benötigten Module entwickelt sind, müssen wir uns zum mit Hilfsfunktionen behelfen. 
+                    Wir müssen Stubs und Drivers entwicklen.
+                </aside>
+            </section>
+
+            <section>
+                <h1>Stubs & Drivers</h1>
+
+                <div style="margin: auto; position:relative">
+                    <img class="plain" data-fragment-index="0" src="../../slides/images/stub-and-driver.png" />
+                    <img class="fragment fade-in plain " data-fragment-index="0" src="../../slides/images/stub-and-driver-2.png" />
+                </div>
+                <ul class="fragment">
+                    <li>Formale Spezifikationen helfen die Stubs und Drivers zu schreiben</li>
+                </ul>
+
+                <aside class="notes">
+                    Die Situation ist hier graphisch dargestellt. Wir möchten ein Modul B testen, welches von Modul A benutzt wird, und selbst
+                    Module C als Service nutzt. Um die Funktionalit"t von B zu testen müssen wir, als Ersatz für das noch nicht entwickelte Module A, 
+                    einen Driver implementieren. Dieser Driver simuliert die Funktionalität von Module A. Da auch das Modul C noch nicht vorhanden ist, 
+                    müssen wir auch dieses Ersetzten, damit wir dessen funktionalität nutzen können. Wir nennen diese Implementation Stub. 
+                    Der Name Stub deutet schon darauf hin, dass die Funktionalität nicht komplett nachimplementiert werden muss, sondern nur soweit, dass wir
+                    das Modul B testen können.
+
+                    Auch hier wird unsere Situation viel einfacher, wenn bereits klar spezifiziert ist, was denn der Vertrag zwischen den Modulen A und B und B und C ist, 
+                    also wie die Schnittstellen aussehen und was genau von den Modulen als Service garantiert wird. 
+
+                </aside>
+
+            </section>
+
+
+            <section>
+                <h1>Integrationstests</h1>
+
+                <div style="float:left;width:50%">
+                    <h4>Big-bang</h4>
+                    <ul>
+                        <li>Alle Module werden nur in Isolation getestet</li>
+                        <li>Danach ganzes System testen</li>
+                    </ul>
+
+                </div>
+                <div style="float:right;width:50%">
+                    <h4>Inkrementelles testen</h4>
+                    <ul>
+                        <li>Progressives integrieren und testen</li>
+                        <li>"top down"</li>
+                        <ul>
+                            <li>stub ersetzten</li>
+                        </ul>
+                        <li>"bottom up"</li>
+                        <ul>
+                            <li>driver ersetzen</li>
+                        </ul>
+                    </ul>
+                </div>
+
+                <aside class= "notes">
+                    Die so getesteten Module können dann, als Teil vom Integrationstest, zu einem Gesamtsystem zusammengefühgt werden. 
+                    Hier gibt es zwei Möglichkeiten. Entweder, wir warten mit der Integration, bis alle benötigten Module entwickelt sind. 
+                    In einer Big Bang aktion, wird dann das gesamte System auf einmal getestet. 
+                    Eine andere Möglichkeit ist, dass wir jedes Modul immer im grösst möglichen Kontext testen. Wir beginnen mit einem einzelnen Module und den 
+                    dazugehörigen Stubs und Driver, und eretzten dann sukkzesive die Stubs und Driver mit den entwickelten Modulen. Dabei können wir Top Down oder
+                    Bottom Up vorgehen. Beim Top Down Ansatz beginnen wir mit dem Modul auf höchster Ebene und ersetzen sukkzesive die Stubs durch die 
+                    richtige Implementation. Beim Bottom up Ansatz beginnen wir auf der tiefsten Ebene und ersetzen sukkzesive die Driver mit den entsprechenden realen 
+                    Modulen. 
+                </aside>
+
+            </section>
+
+            <section>
+                <h1>"Top down" vs "bottom up"</h1>
+
+                <div style="float:center; width:50%; margin-left:auto; margin-right:auto; display:block">
+                    <img src="../../slides/images/module-hierarchy.png" class="plain" />
+                </div>
+
+                <!--
+                <div style="float:right; width:50%">
+                    <ul>
+                        <li>In Hierarchien wird Testen einfacher</li>
+                        <li>Top down</li>
+                        <ul>
+                            <li> Nur stubs</li>
+                        </ul>
+                        <li>Bottom up</li>
+                        <ul>
+                            <li> Nur drivers</li>
+                        </ul>
+                    </ul>
+                </div>
+-->
+                <!--
+                <div style="display:inline-block" class="fragment">
+                    Was sind die Vorteile von Bottom Up / Top Down?
+                </div>
+                -->
+
+                <aside class="notes">
+                    Bei diesem Punkt können wir nun wieder an unsere  Designziele erinnern. Wir wollten wenn möglich die Software  so Entwerfen, dass 
+                    der Uses Graph einen Hierarchie bildet. Ein weiteres Ziel war, dass eine schwache Kopplung zwischen den Modulen haben. 
+                    Es ist einfach zu sehen, dass uns diese Eigenschaften das Testen der Module und den Integrationstest stark vereinfachen. 
+                    Im Falle einer Hierarchischen Anordnung, können wir den Integrationstest wirklich als reinen Bottom up oder reinen Top Down ansatz 
+                    durchführen.
+                </aside>
+            </section>
+
+            <!--
+            <section>
+                <h1>Beispiel</h1>
+
+                <div style="text-align:left">
+                    <img src="../../slides/images/stub-driver-composed.png" class="plain">
+
+                    <ul>
+                        <li>Strategie 1</li>
+                        <ul>
+                            <li>$M_1$ testen, stub f&uuml;r $M_2$</li>
+                        </ul>
+                        <li>Strategie 2</li>
+                        <ul>
+                            <li>$M_{2,2}$ testen, driver f&uuml;r $M_{2,1}$</li>
+                            <li>$M_{2,1}$ designen und $M_2$ mittels driver testen</li>
+                        </ul>
+                    </ul>
+                </div>
+            </section>
+
+-->
+      
+
+
+
+
+            <section>
+                <h1>Systemtest</h1>
+                <blockquote>
+                        Testen des Ganzen Systems gegen die Funktionalen Anforderungen
+                </blockquote>
+                <div style="float:left; width:60%">
+                    <ul>                        
+                        <li>Wird h&auml;ufig auf separater Testumgebung durchgef&uuml;hrt</li>
+                        <ul><li>Testumgebung soll Kundenumgebung simulieren</li></ul>
+                    </ul>
+                </div>
+                <div style="float:right; width:40%">
+                        <figure>
+                            <img src="../../slides/images/radio-therapy.jpg" class="plain" />
+                            <figcaption style="font-size:x-small">By Michael Goodyear - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=61844004</figcaption>
+                        </figure>
+                    </div>
+    
+                <aside class="notes">
+                    Nachdem wir das System integriert haben, und alle Module auch im Gesamtverbund funktionieren, müssen wir das gesamte System gegen 
+                    die spezifizierten Funktionalen Anforderungen testen. 
+                    Wenn möglich sollte dieser Systemtest auf einem für genau diesem Zweck vorgesehene TEstumgebung stattfinden. 
+                    Die TEstumgebugn sollte zudem so konzipiert sein, dass dies möglichst genau die Kundenumgebung simuliert. 
+                    Im einfachsten Fall stellen wir einfach sicher, dass unsere Systemtestumgebugn auf ungefähr dieselbe Hardwarespezifikation und dasselbe
+                    Betriebssystem wie die Kundenumgebugn aufweist. Wenn der Kunde eine sehr spezielle Umgebung hat, wie in dem dargestellten Beispiel eines 
+                    Strahlenterapiegeräts, müssen wir unter umständen einiges Investieren um unsere Testumgebugn möglichst realistisch zu gestalten. 
+                    
+                </aside>
+            </section>
+
+
+       
+                <section>
+                    <h1>Akzeptanztest</h1>
+                    <blockquote>
+                        Test aus Kundensicht - von Kunden durchgeführt
+                    </blockquote>
+                    <ul>
+                            <li><mark class="highlight">Benchmark Test:</mark> Kunde hat eigene Testfälle</li>
+                            <li><mark class="highlight"> Pilottest: </mark> System wird auf Kundensystem installiert (Beta Test)</li>
+                            &nbsp;
+                        <li>Resultat: Entscheid ob und was nachgebessert werden muss</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Wenn auch unsere Systemtests erfolgreich verlaufen sind, können wir das System, im Akzeptanztest, durch den 
+                        Kunden testen lassen. Es gibt hier zwei weit verbreitete Möglichkeiten. Einerseits bereitet der Kunde einen Benchmark test vor. 
+                        Das heisst, er definiert eigene, für ihn wichtige Testfälle, mit dem er das System testet. 
+                        Eine weitere möglichkeit ist, dass nach dem systemtest ein Pilottest durchgeführt wird. Das System wir d auf dem Kundensystem installiert, 
+                        und wird während einer Pilotphase vom Kunden getestet. Dier Test wird häufig auch als Beta test bezeichnet. In dieser Phase ist es 
+                        nicht auszuschliessen, dass das System nochmals nachgebessert werden muss. 
+                        Falls der Kunde mit der Funktionalität zufrieden ist, kann das System ausgeliefert werden und der Auftrag ist abgeschlossen.
+                    </aside>
+                </section>
+
+
+            <section>
+                <h1>Testplan </h1>
+
+                <blockquote>
+                    Hilft Aktivit&auml;ten zu planen und koordinieren
+                </blockquote>
+               <ul> 
+                    <li>Dokumentiert</li>
+                    <ul>
+                     <li> was getestet wird</li>
+                     <li> warum die Tests gemacht werden</li>
+                     <li> wie Tests ausgef&uuml;hrt werden</li>
+                     <li> wann Tests ausgef&uuml;hrt werden müssen</li>
+                 </ul>
+                    <li>Testplan sollte von separatem Team (oder anderem Entwickler) geschrieben werden.</li>
+                </ul> 
+
+                <aside class="notes">
+                    Das Testen von einem grossen System ist ein sehr komplexes unterfangen. Wie jeder Schritt im Softwareentwicklungsprozess, sollte 
+                    auch dieser Schritt gut geplant und dokumentiert werden. 
+                    Dazu wird typischerweise ein Testplan erstellt. Im Testplan wird dokumentiert, was getestet wird, 
+                    warum diese Tests gemacht werden, und wie und wann die Tests ausgeführt werden. 
+
+                    Idealerweise wird der Testplan von einem speziellen Team, eventuell in Absprache mit den Entwicklern erarbeitet. 
+                    Dies vermindert das Risiko, dass die Denkfehler, die den Entwicklern während der Entwicklungsphase unterlaufen sind, sich auch 
+                    im Test wiederspiegeln, und somit unentdeckt bleiben.
+
+                    Das ein Separates Team den Testplan entwicklen kann bedingt natürlich, dass die Anforderungen entsprechend gut Dokumentiert sind.
+                </aside>
+            </section>
+
+            <section>
+                    <h1>Regressionstest</h1>
+    
+                    <blockquote>
+                        Wiederholung der Testf&auml;lle wenn Software ver&auml;ndert wird.
+                    </blockquote>
+    
+                    <ul>
+                        <!--<li>Korrektheit kann durch Spezifikation, Testorakel, oder durch Vergleich mit fr&uuml;heren Testruns gepr&uuml;ft
+                            werden </li>-->
+                        <!-- <li>Spezifikation garantiert, dass wir noch wissen, was gelten muss.</li> -->
+                        <li>Automatisierung der Tests enorm hilfreich</li>
+                        <ul>
+                            <li>Continuous Integration</li>                            
+                        </ul>
+                        &nbsp;
+                        <li><mark class="highlight">Dank Testplan können auch manuelle Testfälle mit wenig Aufwand wiederholt werden!</mark>
+                         </ul>
+
+
+
+                    <aside class="notes">
+                        Wie immer im Software engineering, müssen wir uns bewusst sein, dass die Software in der Zukunft
+                        von Veränderungen betroffen ist und angepasst werden muss. Das heisst, es muss ein Regressionstest durchgefürht werden, 
+                        um zu überprüfen, ob auch das veränderte System noch die Anforderungen erfüllt. 
+                        
+                        Alle Testfälle, die bereits als automatisierte Test vorliegen, können ohne grossen Aufwand wieder durchgeführt werden. 
+                        Enorm hilfreich sind auch Systeme für die Kontinuierliche Integration, die bei jeder Änderung vom Code automatisch alle
+                        Modultest im Zusammenhang durchlaufen lassen. 
+                        
+                        Wenn wir bei der Erstentwicklung einen guten TEstplan entwickelt haben, können wir diesen bei jedem Regressionstest wiederverwenden.
+                        Wir müssen uns also nicht jedesmal neue Testfälle für den Systemtest ausdenken, sondern können von der bereits investierten Arbeit
+                        profitieren. Damit stellen wir sicher, dass auch die angepasste Software genaus zuverlässig funktioniert wie die Ursprungsversion.
+                        
+                    </aside>
+
+                </section>
+
+            <!--
+            <section>
+                <h3>Unit Tests</h3>
+                <ul>
+                    <li>Wozu braucht es stubs und drivers?</li>
+                    <li>Was sind Vor- und Nachteile von Bottom-up / Top-down integration?</lfi>
+                    <li>Weshalb macht Kapselung Software
+                        <ul><li> einfach zu testen?</li></ul>                 
+                        <ul><li> schwierig zu testen?</li></ul>   
+                    <li>Wie helfen automatisierte Tests f&uuml;r Regressionstesting?</li>                    
+                    <li>Wieso sind Hierarchien (von Modulen) einfach zu testen?</li>
+                </ul>
+            </section>
+            -->
+
+        </div>
+    </div>
+
+
+    <script src="../../slides/lib/js/head.min.js"></script>
+    <script src="../../slides/js/reveal.js"></script>
+
+    <script>
+        file: ///home/luetma00/documents/teaching/sweng/theory/lecture1/admin.html#/1
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            center: false,
+            transition: 'none',           
+            /* 
+            chalkboard: {
+                src: "chalkboard.json",
+                readOnly: undefined,
+                transition: 800,
+                theme: "whiteboard",
+                //toggleChalkboardButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+                //toggleNotesButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+                // configuration options for notes canvas and chalkboard
+                color: ['rgba(0,0,255,1)', 'rgba(255,255,255,0.5)'],
+                background: ['rgba(127,127,127,.1)', '../../slides/plugin/chalkboard/img/whiteboard.png'],
+                pen: ['url(../../slides/plugin/chalkboard/img/boardmarker.png), auto', 'url(../../slides/plugin/chalkboard/img/boardmarker.png), auto'],
+            },
+            */
+            math: {
+                    // mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                    config: 'TeX-AMS_HTML-full'
+                },
+
+            dependencies: [{
+                src: '../../slides/plugin/markdown/marked.js'
+            },
+            {
+                src: '../../slides/plugin/markdown/markdown.js'
+            },
+            { src: '../../slides/plugin/mouse-pointer/mouse-pointer.js', async: true }, 
+            {
+                src: '../../slides/plugin/notes/notes.js',
+                async: true
+            },
+            /*
+            {
+                src: '../../slides/plugin/chalkboard/chalkboard.js'
+            },
+            */
+            {
+                src: '../../slides/plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            },
+            { src: '../../slides/plugin/math/math.js', async: true }
+                        ],
+            keyboard: {
+                /*
+                67: function () {
+                    RevealChalkboard.toggleNotesCanvas()
+                }, // toggle notes canvas when 'c' is pressed
+                66: function () {
+                    RevealChalkboard.toggleChalkboard()
+                }, // toggle chalkboard when 'b' is pressed
+                46: function () {
+                    RevealChalkboard.clear()
+                }, // clear chalkboard when 'DEL' is pressed
+                8: function () {
+                    RevealChalkboard.reset()
+                }, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+                68: function () {
+                    RevealChalkboard.download()
+                }, // downlad recorded chalkboard drawing when 'd' is pressed
+                */
+            },
+        });
+    </script>
+</body>
+
+</html>

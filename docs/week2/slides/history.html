@@ -1,0 +1,555 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Software Engineering</title>
+
+	<link rel="stylesheet" href="../../slides/css/reveal.css">
+	<link rel="stylesheet" href="../../slides/css/theme/unibas.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="../../slides/lib/css/zenburn.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '../../slides/css/print/pdf.css' : '../../slides/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section class="center">
+				<div class="titleblock">
+
+					<p>
+						<img class="plain" src="../../slides/images/uni-basel-logo.png" style="width:15%;float:left;display:block" />
+					</p>
+
+
+					<h1 style="clear:both;margin-top:20%">
+						Geschichte des Software Engineerings
+
+					</h1>
+					<h3>
+						Marcel L&uuml;thi <br> Departement Mathematik und Informatik
+					</h3>
+
+				</div>
+			</section>
+			
+			<section>
+				<h1>Weshalb braucht es historischen Kontext?</h1>
+
+				<ul>
+					<li> Wer die Geschichte nicht kennt, wird sie wiederholen.
+					</li>
+					<li> Innovation l&ouml;st immer ein Problem</li>
+					<ul>
+						<li> Problem / L&ouml;sung stark von Kontext beeinflusst</li>
+					</ul>
+					<li> Besseres Verst&auml;ndnis von Methodik/Ansatz</li>
+				</ul>
+
+				<br/>
+				<br/>
+
+			</section>
+
+
+
+			<section>
+				<h1>Vor 1950 </h1>
+
+				<div style="float:left; text-align:left;width:60%;">
+					<ul>
+						<li> Kein Software-Engineering - Nur Programmierung</li>
+						<li>
+							<mark class="highlight">Wohldefinierte Probleme</mark>
+						</li>
+						<ul>
+							<li> Beispiel: L&ouml;sen einer Differentialgleichung </li>
+						</ul>
+						<li> Programmierer waren meistens Physiker </li>
+					</ul>
+				</div>
+
+				<div style="float:right; text-align:center;width:40%;">
+					<figure>
+						<img src="../../slides/images/z3.jpg" class="plain" style="width:100%" />
+						<figcaption style="font-size:x-small">By Venusianer at the German language Wikipedia, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=3632073</figcaption>
+					</figure>
+				</div>
+
+				<blockquote style="display:inline-block">
+						1:1 zwischen Programmierer und Computer
+				</blockquote>
+			</section>
+
+			<section>
+				<h1>Vor 1950 </h1>
+				<div style="text-align:left; margin-left:5%">
+						Programmiersprachen:
+					<ul>
+						<li> Haupts&auml;chlich Assembler </li>
+					</ul>
+			</div>
+
+				<pre><code data-trim data-noescape>
+					FACTO    CSECT
+					USING  FACTO,R13
+		   SAVEAREA B      STM-SAVEAREA(R15)
+					DC     17F'0'
+					DC     CL8'FACTO'
+		   STM      STM    R14,R12,12(R13)
+					ST     R13,4(R15)
+					ST     R15,8(R13)
+					LR     R13,R15         base register and savearea pointer
+					ZAP    N,=P'1'         n=1
+		   LOOPN    CP     N,NN            if n>nn
+					BH     ENDLOOPN        then goto endloop
+					LA     R1,PARMLIST
+					L      R15,=A(FACT)
+					BALR   R14,R15         call fact(n)
+				ZAP    F,0(L'R,R1)     f=fact(n)
+		   DUMP     EQU    *
+				MVC    S,MASK
+				ED     S,N
+					MVC    WTOBUF+5(2),S+30
+				MVC    S,MASK
+				ED     S,F
+					MVC    WTOBUF+9(32),S
+					WTO    MF=(E,WTOMSG)		  
+				AP     N,=P'1'         n=n+1  
+				B      LOOPN
+		   ENDLOOPN EQU    *
+		   RETURN   EQU    *
+					L      R13,4(0,R13)
+					LM     R14,R12,12(R13)
+					XR     R15,R15
+					BR     R14
+		   FACT     EQU    *               function FACT(l)
+					L      R2,0(R1)
+					L      R3,12(R2)
+					ZAP    L,0(L'N,R2)     l=n
+					ZAP    R,=P'1'         r=1
+					ZAP    I,=P'2'         i=2
+		   LOOP     CP     I,L             if i>l
+					BH     ENDLOOP         then goto endloop
+				MP     R,I             r=r*i
+				AP     I,=P'1'         i=i+1  
+				B      LOOP
+		   ENDLOOP  EQU    *
+					LA     R1,R            return r
+					BR     R14             end function FACT
+					DS     0D
+		   NN       DC     PL16'29'
+		   N        DS     PL16
+		   F        DS     PL16
+		   C        DS     CL16
+		   II       DS     PL16
+		   PARMLIST DC     A(N)
+		   S        DS     CL33            
+		   MASK     DC     X'40',29X'20',X'212060'  CL33
+		   WTOMSG   DS     0F
+					DC     H'80',XL2'0000'
+		   WTOBUF   DC     CL80'FACT(..)=................................ '
+		   L        DS     PL16
+		   R        DS     PL16
+		   I        DS     PL16
+					LTORG
+					YREGS  
+					END    FACTO
+				   </code></pre>
+
+
+			</section>
+
+
+			<section>
+				<h1>1950-1960 </h1>
+
+				<div style="float:left; text-align:left;width:70%;">
+					<ul>
+						<li> Programmierer wird zum Beruf </li>
+						<li> Programmieren bleibt single-player Game</li>
+						<ul>
+							<li> Neu:
+								<mark class="highlight">Programmierer != User</mark>
+							</li>
+						</ul>
+						<li> Erste grosse Software Projekte </li>
+						<ul>
+							<li> Beispiel CTSS Betriebssystem </li>
+						</ul>
+					</ul>
+				</div>
+
+				<div style="float:left; text-align:center;width:30%;">
+					<figure>
+						<img src="../../slides/images/IBM704.jpg" class="plain" style="width:100%" />
+						<figcaption style="font-size:x-small">By NASA - Great Images in NASA Description, Public Domain, https://commons.wikimedia.org/w/index.php?curid=6455009</figcaption>
+					</figure>
+				</div>
+
+				<blockquote style="display:inline-block">
+						Anforderungen müssen kommuniziert werden. 
+				</blockquote>
+
+
+			</section>
+
+			<section>
+				<h1>1950 - 1960</h1>
+				
+				<div style="text-align:left; margin-left:5%">		
+				Programmiersprachen <br/>
+
+					<ul>
+						<li> Fortran, Lisp, Cobol </li>
+					</ul>
+				
+			</div>
+				<pre><code data-trim data-noescape>
+							(defun fact (n)
+							(if (< n 2)
+								1
+							  (* n (fact(- n 1)))))
+					   </code></pre>
+	
+					   <pre><code data-trim data-noescape>
+							FUNCTION FACT(N)
+							INTEGER N,I,FACT
+							FACT=1
+							DO 10 I=1,N
+						 10 FACT=FACT*I
+							END
+					   </code></pre>
+					   
+			</section>
+
+			<section>
+				<h1> 1960-1970</h1>
+				<div style="float:left; text-align:left;width:70%;">
+					<ul>
+						<li> Erste grosse, kommerzielle Softwaresysteme</li>
+						<li> <mark class="highlight">Grenzen des Programmierens werden ersichtlich.</mark>
+						<ul>
+							<li> Programmiertechniken skalieren nicht</li>							
+						</ul>
+						<li> Begriff der Softwarekrise </li>
+						<li> Software Engineering wird erfunden </li>
+					</ul>
+				</div>
+
+				<div style="float:left; text-align:center;width:30%;">
+					<figure>
+						<img src="../../slides/images/IBM360.jpg" class="plain" style="width:100%" />
+						<figcaption style="font-size:x-small">By ArnoldReinhold - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=47096462</figcaption>
+					</figure>
+				</div>
+
+			</section>
+			<section>
+				<h1> 1960-1970</h1>
+
+				<div style="float:left; text-align:left;width:100%;">
+					<ul>
+						 Probleme: 
+						<ul>
+							<li> Kommunikationsoverhead</li>
+							<li> Was passiert wenn Programmierer geht</li>
+							<li> Teueres "on boarding" </li>
+							<li> &Auml;nderungen in einem System beeinflusst andere Systeme </li>
+						</ul>
+					</ul>
+				</div>
+
+				<blockquote style="display:inline-block">
+						Kommunikation/Informationsfluss und Modularisierung werden wichtig. 
+
+				</blockquote>
+
+
+			</section>
+
+			<section>
+				<h1> 1960-1970</h1>
+
+				<div style="float:left; text-align:left;width:100%;">
+					<ul>
+					L&ouml;sungsans&auml;tze:
+						<ul>
+							<li> Teamorganisation</li>
+							<li> Neue Programmiersprachen </li>
+							<li> Programmierrichtlinien </li>
+							<li> Formale Modelle </li>
+						</ul>
+					</ul>
+				</div>
+			</section>
+			<section>
+					<h1>1960 - 1970</h1>
+
+
+					<div style="text-align:left; margin-left:5%">		
+							Programmiersprachen <br/>
+						<ul>
+							<li> Simula, Basic, PL/I </li>
+						</ul>
+			</div>
+	
+					<pre><code data-trim data-noescape>
+							factorial: procedure (N) returns (fixed decimal (30));
+								declare N fixed binary nonassignable;
+								declare i fixed decimal (10);
+								declare F fixed decimal (30);
+						  
+								if N < 0 then signal error;
+								F = 1;
+								do i = 2 to N;
+							   		F = F * i;
+								end;
+								return (F);
+						 	end factorial;
+						   </code></pre>
+
+				</section>
+	
+
+			<section>
+				<h1> 1970-1990</h1>
+				<div style="float:left; text-align:left;width:70%;">
+					<ul>
+						<li>Stetiger Fortschritt</li>
+						<li> Bessere Sprachen / Tools </li>
+						<ul>
+						<li> Mainstream: Strukturierte Programmierung </li>
+						<li> Forschung: Objektorientierte Programmierung </li>
+					</ul>
+						<li> Besseres Verst&auml;ndnis der Prozesse </li>						
+					</ul>
+				</div>
+
+				<div style="float:left; text-align:center;width:30%;">
+					<figure>
+						<img src="../../slides/images/ibm-xt.jpg" class="plain" style="width:100%" />
+						<figcaption style="font-size:x-small">By ArnoldReinhold - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=47096462</figcaption>
+					</figure>
+				</div>
+
+				<blockquote style="display:inline-block">
+					<p>
+						Einsicht: Es ist schwierig! (no silver bullet!) <br/>						
+					</p>
+					
+				</blockquote>
+
+
+			</section>
+			<section>
+					<h1>1970 - 1990</h1>
+					<div style="text-align:left; margin-left:5%">		
+							Programmiersprachen <br/>
+						<ul>
+						<li> C, Smalltalk, ML </li>					
+					</ul>
+					</div>
+	
+					<pre><code data-trim data-noescape>
+							int factorial(int n) {
+								int result = 1;
+								for (int i = 1; i <= n; ++i)
+									result *= i;
+								return result;
+							}
+						   </code></pre>
+					<pre><code data-trim data-noescape>
+							fun factorial n =
+						    	if n <= 0 then 1
+								else n * factorial (n-1)
+						   </code></pre>
+	
+				</section>
+
+			<section>
+				<h1> 1990 - Heute</h1>
+
+				<div style="float:left; text-align:left;width:100%;">
+					<ul>
+						<li> Internet </li>
+						<ul>
+							<li>Computer sind g&uuml;nstig</li>
+							<li> Viele (Millionen) Benutzer </li>							
+							<li>Time to market wird wichtig</li>					
+						</ul>
+
+						<li> Open source Entwicklung </li>
+						<li> Programmiersprachen und Tooling verbessern sich enorm</li>
+					</ul>
+				</div>
+
+				<blockquote style="display:inline-block">
+						Agile Methoden statt schwerfälliger Prozesse.
+					</blockquote>
+	
+
+				<!--
+				<div style="float:left; text-align:center;width:100%;">
+					<figure>
+						<img src="images/netscape.svg" class="plain" style="width:50%" />
+						<figcaption style="font-size:x-small">By Netscape Corporation - Netscape, Public Domain, https://commons.wikimedia.org/w/index.php?curid=11825618</figcaption>
+					</figure>
+				</div>
+			-->
+			</section>
+
+			<section>
+					<h1>1990 - Heute</h1>
+					<div style="text-align:left; margin-left:5%">		
+				
+							Programmiersprachen <br/>
+						<ul>
+							<li> Java, Python, Haskell </li>
+					</ul>
+	
+					<pre><code data-trim data-noescape>
+							factorial :: Integral -> Integral
+							factorial 0 = 1
+							factorial n = n * factorial (n-1)
+						   </code></pre>
+					<pre><code data-trim data-noescape>
+							def factorial(n):
+								result = 1
+								for i in range(1, n+1):
+									result *= i
+								return result
+						   </code></pre>
+	
+				</section>
+
+			<section>
+				<h1>Heute - ???</h1>
+
+				<div style="float:left; text-align:left;width:60%;">
+					<ul>
+						<li> Software is eating the world </li>
+						<li> Big Data </li> 
+						<ul><li>Distributed computing</li></ul>
+						<li> Machine Learning / KI </li>
+						<ul>
+							<li>Probabilistisches und differentielles Programmieren</li>
+						</ul>
+						<li> Internet of Things</li>
+						<ul><li>Sicherheit?</li></ul>
+					</ul>
+				</div>
+
+				<div style="float:left; text-align:center;width:40%;">
+					<figure>
+						<img src="../../slides/images/ai.png" class="plain" style="width:100%" />
+						<figcaption style="font-size:xx-small">Luckey_sun, use under CC BY-SA 2.0 <br/> available at https://www.flickr.com/photos/75279887@N05/6914441342</figcaption>
+					</figure>
+				</div>
+			</section>
+
+
+			<!--
+			<section>
+
+				<h3> Unit tests </h3>
+
+				<ul>
+					<li> Weshalb war Software Engineering in den 50er Jahren nicht wichtig?</li>
+					<li> Was waren die Ursachen f&uuml;r die Softwarekrise?</li>
+					<li> Was sind die wichtigsten Unterschiede zwischen der Programmierung heute und in den 60er Jahren? </li>
+				</ul>
+
+			</section>
+			-->
+		</div>
+	</div>
+
+
+
+
+
+
+	<script src="../../slides/lib/js/head.min.js"></script>
+	<script src="../../slides/js/reveal.js"></script>
+
+	<script>
+		file: ///home/luetma00/documents/teaching/sweng/theory/lecture1/admin.html#/1
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			center: false,
+			/*
+			chalkboard: {
+				src: "chalkboard.json",
+				readOnly: undefined,
+				transition: 800,
+				theme: "whiteboard",
+				//toggleChalkboardButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+				//toggleNotesButton: { left: "30px", bottom: "30px", top: "auto", right: "auto" },
+				// configuration options for notes canvas and chalkboard
+				color: ['rgba(0,0,255,1)', 'rgba(255,255,255,0.5)'],
+				background: ['rgba(127,127,127,.1)', '../../slides/plugin/chalkboard/img/whiteboard.png'],
+				pen: ['url(../../slides/plugin/chalkboard/img/boardmarker.png), auto', 'url(../../slides/plugin/chalkboard/img/boardmarker.png), auto'],
+			},*/
+			dependencies: [{
+				src: '../../slides/plugin/markdown/marked.js'
+			},
+			{
+				src: '../../slides/plugin/markdown/markdown.js'
+			},
+			{
+				src: '../../slides/plugin/notes/notes.js',
+				async: true
+			},
+			{
+				src: '../../slides/plugin/chalkboard/chalkboard.js'
+			},
+			{
+				src: '../../slides/plugin/highlight/highlight.js',
+				async: true,
+				callback: function () {
+					hljs.initHighlightingOnLoad();
+				}
+			}
+			],
+			/*
+			keyboard: {
+				67: function () {
+					RevealChalkboard.toggleNotesCanvas()
+				}, // toggle notes canvas when 'c' is pressed
+				66: function () {
+					RevealChalkboard.toggleChalkboard()
+				}, // toggle chalkboard when 'b' is pressed
+				46: function () {
+					RevealChalkboard.clear()
+				}, // clear chalkboard when 'DEL' is pressed
+				8: function () {
+					RevealChalkboard.reset()
+				}, // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+				68: function () {
+					RevealChalkboard.download()
+				}, // downlad recorded chalkboard drawing when 'd' is pressed
+			},
+			*/
+		});
+	</script>
+</body>
+
+</html>
